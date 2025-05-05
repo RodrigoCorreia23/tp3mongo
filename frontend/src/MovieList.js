@@ -10,6 +10,9 @@ export default function MovieList() {
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 12;
 
+  // Número máximo de botões de página a exibir
+  const maxPageButtons = 5;
+
   // Sempre que mudar searchTerm, buscamos no servidor já filtrado
   useEffect(() => {
     const q = searchTerm.trim()
@@ -29,12 +32,24 @@ export default function MovieList() {
   const startIndex = (currentPage - 1) * moviesPerPage;
   const paginatedMovies = movies.slice(startIndex, startIndex + moviesPerPage);
 
+  // Cálculo da janela de páginas
+  const pageWindowStart = Math.floor((currentPage - 1) / maxPageButtons) * maxPageButtons + 1;
+  const pageWindowEnd = Math.min(pageWindowStart + maxPageButtons - 1, totalPages);
+  const pageNumbers = [];
+  for (let i = pageWindowStart; i <= pageWindowEnd; i++) {
+    pageNumbers.push(i);
+  }
+
   const goToPage = page => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const prevPage = () => goToPage(Math.max(currentPage - 1, 1));
-  const nextPage = () => goToPage(Math.min(currentPage + 1, totalPages));
+  const prevPage = () => {
+    if (currentPage > 1) goToPage(currentPage - 1);
+  };
+  const nextPage = () => {
+    if (currentPage < totalPages) goToPage(currentPage + 1);
+  };
 
   return (
     <>
@@ -85,15 +100,17 @@ export default function MovieList() {
             <button onClick={prevPage} disabled={currentPage === 1}>
               Anterior
             </button>
-            {[...Array(totalPages)].map((_, idx) => (
+
+            {pageNumbers.map(num => (
               <button
-                key={idx}
-                onClick={() => goToPage(idx + 1)}
-                className={currentPage === idx + 1 ? 'active' : ''}
+                key={num}
+                onClick={() => goToPage(num)}
+                className={currentPage === num ? 'active' : ''}
               >
-                {idx + 1}
+                {num}
               </button>
             ))}
+
             <button onClick={nextPage} disabled={currentPage === totalPages}>
               Próxima
             </button>
