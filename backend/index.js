@@ -96,6 +96,39 @@ app.post('/movies/:id/comments', async (req, res) => {
   }
 });
 
+// Edita um comentário
+app.put('/movies/:id/comments/:commentId', async (req, res) => {
+  try {
+    const { text } = req.body;
+    const updated = await Comment.findOneAndUpdate(
+      { _id: req.params.commentId, movieId: req.params.id },
+      { text },
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ error: 'Comentário não encontrado' });
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao editar comentário' });
+  }
+});
+
+// Remove um comentário
+app.delete('/movies/:id/comments/:commentId', async (req, res) => {
+  try {
+    const deleted = await Comment.findOneAndDelete({
+      _id: req.params.commentId,
+      movieId: req.params.id
+    });
+    if (!deleted) return res.status(404).json({ error: 'Comentário não encontrado' });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao excluir comentário' });
+  }
+});
+
+
 // Inicia o servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
