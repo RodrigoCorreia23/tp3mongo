@@ -164,15 +164,14 @@ header {
 /* faz o wrapper “grudar” em baixo e centrar todo o conteúdo */
 .pagination-wrapper {
   position: fixed;
-  bottom: 20px;       /* distancia do rodapé */
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  pointer-events: none; /* permite clicar só nos botões, não no fundo */
+  bottom: 20px;             /* ajuste a distância do rodapé */
+  left: 50%;                /* posiciona o ponto de ancoragem no meio da tela */
+  transform: translateX(-50%); /* centra o conteúdo */
+  pointer-events: none;     /* clique só nos botões */
+  z-index: 100;             /* garante que fique acima do grid */
 }
 
-/* container interno pra habilitar pointer-events nos botões */
+/* container interno continua igual */
 .pagination {
   display: flex;
   gap: 0.5rem;
