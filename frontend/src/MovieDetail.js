@@ -11,11 +11,11 @@ export default function MovieDetail() {
 
   useEffect(() => {
     // busca dados gerais
-    fetch(`http://localhost:5000/movies/${id}`)
+    fetch(`https://tp3mongo-2.onrender.com/movies/${id}`)
       .then(r => r.json())
       .then(setMovie);
     // busca comentários
-    fetch(`http://localhost:5000/movies/${id}/comments`)
+    fetch(`https://tp3mongo-2.onrender.com/movies/${id}/comments`)
       .then(r => r.json())
       .then(setComments);
   }, [id]);
@@ -23,7 +23,7 @@ export default function MovieDetail() {
   const submit = async e => {
     e.preventDefault();
     if (!text) return;
-    const res = await fetch(`http://localhost:5000/movies/${id}/comments`, {
+    const res = await fetch(`https://tp3mongo-2.onrender.com/movies/${id}/comments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })

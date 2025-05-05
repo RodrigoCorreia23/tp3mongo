@@ -5,7 +5,7 @@ import './App.css';
 export default function MovieList() {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/movies')
+    fetch('https://tp3mongo-2.onrender.com/movies')
       .then(r => r.json())
       .then(setMovies);
   }, []);
