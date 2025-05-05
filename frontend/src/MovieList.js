@@ -10,10 +10,10 @@ export default function MovieList() {
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 12;
 
-  // Número máximo de botões de página a exibir
+
   const maxPageButtons = 5;
 
-  // Sempre que mudar searchTerm, buscamos no servidor já filtrado
+
   useEffect(() => {
     const q = searchTerm.trim()
       ? `?search=${encodeURIComponent(searchTerm.trim())}`
@@ -22,7 +22,7 @@ export default function MovieList() {
       .then(r => r.json())
       .then(data => {
         setMovies(data);
-        setCurrentPage(1); // reseta pra página 1 em toda busca
+        setCurrentPage(1);
       })
       .catch(err => console.error('Erro ao buscar filmes:', err));
   }, [searchTerm]);
@@ -57,7 +57,7 @@ export default function MovieList() {
         <h1>🎬 Catálogo</h1>
       </header>
 
-      {/* Barra de busca */}
+      {/* Barra de procura */}
       <input
         className="search-bar"
         type="text"

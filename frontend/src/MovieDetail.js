@@ -1,7 +1,7 @@
 // src/components/MovieDetail.js
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './App.css'; // aproveita as classes já definidas
+import './App.css';
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -12,13 +12,13 @@ export default function MovieDetail() {
   const [editingText, setEditingText] = useState('');
 
   useEffect(() => {
-    // busca dados gerais do filme
+    // procurar dados gerais do filme
     fetch(`https://tp3mongo-2.onrender.com/movies/${id}`)
       .then(res => res.json())
       .then(setMovie)
       .catch(err => console.error('Erro ao carregar filme:', err));
 
-    // busca comentários
+    // procurar comentários
     fetch(`https://tp3mongo-2.onrender.com/movies/${id}/comments`)
       .then(res => res.json())
       .then(setComments)
