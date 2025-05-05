@@ -64,24 +64,26 @@ export default function MovieList() {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="pagination">
-          <button onClick={prevPage} disabled={currentPage === 1}>
-            Anterior
-          </button>
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index + 1}
-              onClick={() => goToPage(index + 1)}
-              className={currentPage === index + 1 ? 'active' : ''}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button onClick={nextPage} disabled={currentPage === totalPages}>
-            Próxima
-          </button>
-        </div>
-      )}
+  <div className="pagination-wrapper">
+    <div className="pagination">
+      <button onClick={prevPage} disabled={currentPage === 1}>
+        Anterior
+      </button>
+      {[...Array(totalPages)].map((_, index) => (
+        <button
+          key={index + 1}
+          onClick={() => goToPage(index + 1)}
+          className={currentPage === index + 1 ? 'active' : ''}
+        >
+          {index + 1}
+        </button>
+      ))}
+      <button onClick={nextPage} disabled={currentPage === totalPages}>
+        Próxima
+      </button>
+    </div>
+  </div>
+)}
     </>
   );
 }
