@@ -161,28 +161,25 @@ header {
   font-size: 1.2rem;
 }
 
-/* faz o wrapper “grudar” em baixo e centrar todo o conteúdo */
 .pagination-wrapper {
   position: fixed;
-  bottom: 20px;             /* ajuste a distância do rodapé */
-  left: 50%;                /* posiciona o ponto de ancoragem no meio da tela */
-  transform: translateX(-50%); /* centra o conteúdo */
-  pointer-events: none;     /* clique só nos botões */
-  z-index: 100;             /* garante que fique acima do grid */
+  bottom: 20px;                /* ajuste a altura */
+  left: 50%;                   /* ponto de ancoragem no meio */
+  transform: translateX(-50%); /* puxa metade da própria largura pra a esquerda */
+  pointer-events: none;        /* click só nos botões */
+  z-index: 100;                /* garante sobreposição */
 }
 
-/* container interno continua igual */
 .pagination {
   display: flex;
   gap: 0.5rem;
   background: rgba(255,255,255,0.9);
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  pointer-events: all;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  pointer-events: all;
 }
 
-/* estilo dos botões */
 .pagination button {
   padding: 0.5em 0.75em;
   border: 1px solid #ddd;
@@ -199,8 +196,6 @@ header {
   opacity: 0.5;
   cursor: default;
 }
-
-/* destaque pro botão ativo */
 .pagination button.active {
   background: #007bff;
   color: white;
