@@ -161,3 +161,49 @@ header {
   font-size: 1.2rem;
 }
 
+/* faz o wrapper “grudar” em baixo e centrar todo o conteúdo */
+.pagination-wrapper {
+  position: fixed;
+  bottom: 20px;       /* distancia do rodapé */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* permite clicar só nos botões, não no fundo */
+}
+
+/* container interno pra habilitar pointer-events nos botões */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  pointer-events: all;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* estilo dos botões */
+.pagination button {
+  padding: 0.5em 0.75em;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.pagination button:hover {
+  background: #f0f0f0;
+  border-color: #ccc;
+}
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* destaque pro botão ativo */
+.pagination button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
