@@ -150,7 +150,7 @@ export default function MovieDetail() {
             rows="3"
             value={text}
             onChange={e => setText(e.target.value)}
-            placeholder="Escreva seu comentário…"
+            placeholder="Escreva o seu comentário…"
           />
           <button type="submit">Enviar</button>
         </form>
