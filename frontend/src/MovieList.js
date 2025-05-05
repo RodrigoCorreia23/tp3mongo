@@ -37,7 +37,6 @@ export default function MovieList() {
         className="search-bar"
         type="text"
         placeholder="Procurar filme..."
-        // controle de estado omitido pra brevidade
       />
       <div className="movie-grid">
         {paginatedMovies.map(m => (
@@ -52,8 +51,8 @@ export default function MovieList() {
               {m.year && <div className="year">({m.year})</div>}
               {m.plot && (
                 <p className="plot">
-                  {m.plot.length > 100
-                    ? m.plot.slice(0, 100) + '…'
+                  {m.plot.length > 500
+                    ? m.plot.slice(0, 500) + '…'
                     : m.plot}
                 </p>
               )}
