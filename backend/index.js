@@ -20,7 +20,6 @@ mongoose
 const app = express();
 
 // Middlewares
-// Se quiseres restringir a origem, altera origin para o domínio do teu frontend
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
@@ -39,10 +38,17 @@ const commentSchema = new Schema({
 const Comment = model('Comment', commentSchema, 'comments');
 
 // --- ROTAS ---
-// Lista até 50 filmes
+
+// Lista até 500 filmes, opcionalmente filtrando por título
 app.get('/movies', async (req, res) => {
   try {
-    const allMovies = await Movie.find({}).limit(50);
+    const { search } = req.query;
+    // Se vier ?search=algo, cria um filtro regex case‑insensitive
+    const filter = search
+      ? { title: { $regex: search, $options: 'i' } }
+      : {};
+
+    const allMovies = await Movie.find(filter).limit(500);
     res.json(allMovies);
   } catch (err) {
     console.error(err);

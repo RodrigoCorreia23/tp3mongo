@@ -1,30 +1,38 @@
+// src/components/MovieList.js
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 
 export default function MovieList() {
   const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 12;
 
+  // Sempre que mudar searchTerm, buscamos no servidor já filtrado
   useEffect(() => {
-    fetch('https://tp3mongo-2.onrender.com/movies')
+    const q = searchTerm.trim()
+      ? `?search=${encodeURIComponent(searchTerm.trim())}`
+      : '';
+    fetch(`https://tp3mongo-2.onrender.com/movies${q}`)
       .then(r => r.json())
-      .then(setMovies);
-  }, []);
+      .then(data => {
+        setMovies(data);
+        setCurrentPage(1); // reseta pra página 1 em toda busca
+      })
+      .catch(err => console.error('Erro ao buscar filmes:', err));
+  }, [searchTerm]);
 
-  // Calculate pagination values
+  // Paginação sobre o array retornado (já filtrado pelo back)
   const totalPages = Math.ceil(movies.length / moviesPerPage);
   const startIndex = (currentPage - 1) * moviesPerPage;
-  const endIndex = startIndex + moviesPerPage;
-  const paginatedMovies = movies.slice(startIndex, endIndex);
+  const paginatedMovies = movies.slice(startIndex, startIndex + moviesPerPage);
 
-  // Handlers
-  const goToPage = (page) => {
+  const goToPage = page => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
   const prevPage = () => goToPage(Math.max(currentPage - 1, 1));
   const nextPage = () => goToPage(Math.min(currentPage + 1, totalPages));
 
@@ -33,11 +41,17 @@ export default function MovieList() {
       <header>
         <h1>🎬 Catálogo</h1>
       </header>
+
+      {/* Barra de busca */}
       <input
         className="search-bar"
         type="text"
         placeholder="Procurar filme..."
+        value={searchTerm}
+        onChange={e => setSearchTerm(e.target.value)}
       />
+
+      {/* Grade de filmes */}
       <div className="movie-grid">
         {paginatedMovies.map(m => (
           <div className="movie-card" key={m._id}>
@@ -59,30 +73,33 @@ export default function MovieList() {
             </div>
           </div>
         ))}
+        {!movies.length && (
+          <p>Nenhum filme encontrado para “{searchTerm}”</p>
+        )}
       </div>
 
-      {/* Pagination Controls */}
+      {/* Paginação */}
       {totalPages > 1 && (
-  <div className="pagination-wrapper">
-    <div className="pagination">
-      <button onClick={prevPage} disabled={currentPage === 1}>
-        Anterior
-      </button>
-      {[...Array(totalPages)].map((_, index) => (
-        <button
-          key={index + 1}
-          onClick={() => goToPage(index + 1)}
-          className={currentPage === index + 1 ? 'active' : ''}
-        >
-          {index + 1}
-        </button>
-      ))}
-      <button onClick={nextPage} disabled={currentPage === totalPages}>
-        Próxima
-      </button>
-    </div>
-  </div>
-)}
+        <div className="pagination-wrapper">
+          <div className="pagination">
+            <button onClick={prevPage} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            {[...Array(totalPages)].map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToPage(idx + 1)}
+                className={currentPage === idx + 1 ? 'active' : ''}
+              >
+                {idx + 1}
+              </button>
+            ))}
+            <button onClick={nextPage} disabled={currentPage === totalPages}>
+              Próxima
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
